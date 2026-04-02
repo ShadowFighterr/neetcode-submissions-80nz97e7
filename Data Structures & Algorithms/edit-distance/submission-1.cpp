@@ -1,0 +1,16 @@
+class Solution {
+public:
+    vector<vector<int>> dp;
+    int minDistance(string word1, string word2) {
+        dp.assign(word1.length(), vector<int>(word2.length(), -1));
+        return dfs(word1, word2, 0, 0);
+    }
+    int dfs(string& word1, string& word2, int i, int j){
+        if(i == word1.size()) return word2.size()-j;
+        if(j == word2.size()) return word1.length()-i;
+        if(dp[i][j] != -1) return dp[i][j];
+        if(word1[i] == word2[j]) return dp[i][j] = dfs(word1, word2, i+1, j+1);
+        return dp[i][j] = 1+min(dfs(word1, word2, i, j+1), min(dfs(word1, word2, i+1, j),
+        dfs(word1, word2, i+1, j+1)));
+    }
+};
